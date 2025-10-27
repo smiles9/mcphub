@@ -15,4 +15,5 @@ COPY . .
 EXPOSE 3000
 
 # Start the application
-CMD ["node", "uk-buses-mcp-server.js"]
+# Using HTTP wrapper for Railway deployment
+CMD ["node", "http-wrapper.js"]
