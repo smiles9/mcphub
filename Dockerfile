@@ -16,4 +16,4 @@ EXPOSE 3000
 
 # Start the application
 # Using HTTP wrapper for Railway deployment
-CMD ["node", "http-wrapper.js"]
+CMD ["node", "server.js"]
