@@ -1,0 +1,217 @@
+{
+  "name": "Audiobook Reader",
+  "description": "Comprehensive audiobook player with book management, chapter navigation, bookmarking, and reading progress tracking",
+  "command": "node",
+  "workingDirectory": "/Users/yliu3y/Desktop/WRO/xiaozhi-mcphub-main",
+  "transport": "stdio",
+  "requestTimeout": 60000,
+  "tools": [
+    {
+      "name": "play_audiobook",
+      "description": "Play a specific audiobook by title, author, or search query",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Book title, author, or search query (e.g., \"1984\", \"George Orwell\", \"dystopian fiction\")"
+          },
+          "author": {
+            "type": "string",
+            "description": "Optional: Specific author name"
+          },
+          "genre": {
+            "type": "string",
+            "description": "Optional: Book genre (e.g., \"fiction\", \"non-fiction\", \"mystery\", \"sci-fi\", \"biography\")"
+          }
+        },
+        "required": ["query"]
+      }
+    },
+    {
+      "name": "play_chapter",
+      "description": "Play a specific chapter of the current audiobook",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "chapter": {
+            "type": "number",
+            "description": "Chapter number to play"
+          },
+          "book_title": {
+            "type": "string",
+            "description": "Optional: Book title if not currently loaded"
+          }
+        },
+        "required": ["chapter"]
+      }
+    },
+    {
+      "name": "control_playback",
+      "description": "Control audiobook playback (play, pause, stop, next chapter, previous chapter, speed, seek)",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": ["play", "pause", "stop", "next_chapter", "previous_chapter", "speed", "seek"],
+            "description": "Control action to perform"
+          },
+          "value": {
+            "type": "number",
+            "description": "For speed: 0.5-3.0, for seek: position in seconds"
+          }
+        },
+        "required": ["action"]
+      }
+    },
+    {
+      "name": "search_audiobooks",
+      "description": "Search for audiobooks by title, author, genre, or keywords",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Search query for audiobooks"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["title", "author", "genre", "all"],
+            "description": "Type of search to perform",
+            "default": "all"
+          },
+          "limit": {
+            "type": "number",
+            "description": "Maximum number of results to return",
+            "default": 10
+          }
+        },
+        "required": ["query"]
+      }
+    },
+    {
+      "name": "get_current_book",
+      "description": "Get information about the currently playing audiobook and reading progress",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "add_bookmark",
+      "description": "Add a bookmark at the current position or specific time",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Bookmark name or description"
+          },
+          "position": {
+            "type": "number",
+            "description": "Optional: Position in seconds (if not provided, uses current position)"
+          },
+          "chapter": {
+            "type": "number",
+            "description": "Optional: Chapter number"
+          }
+        },
+        "required": ["name"]
+      }
+    },
+    {
+      "name": "list_bookmarks",
+      "description": "List all bookmarks for the current audiobook",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "book_title": {
+            "type": "string",
+            "description": "Optional: Book title (if not provided, uses current book)"
+          }
+        }
+      }
+    },
+    {
+      "name": "set_reading_speed",
+      "description": "Set the playback speed for audiobook reading",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "speed": {
+            "type": "number",
+            "description": "Playback speed (0.5 = half speed, 1.0 = normal, 2.0 = double speed, max 3.0)"
+          }
+        },
+        "required": ["speed"]
+      }
+    },
+    {
+      "name": "get_reading_progress",
+      "description": "Get detailed reading progress and statistics",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "book_title": {
+            "type": "string",
+            "description": "Optional: Book title (if not provided, uses current book)"
+          }
+        }
+      }
+    },
+    {
+      "name": "create_reading_list",
+      "description": "Create a reading list with multiple audiobooks",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Reading list name"
+          },
+          "books": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Array of book titles or search queries"
+          }
+        },
+        "required": ["name", "books"]
+      }
+    }
+  ],
+  "examples": [
+    {
+      "prompt": "Play 1984 by George Orwell",
+      "response": "Calling play_audiobook with { query: '1984', author: 'George Orwell' }"
+    },
+    {
+      "prompt": "Search for mystery audiobooks",
+      "response": "Calling search_audiobooks with { query: 'mystery', type: 'genre' }"
+    },
+    {
+      "prompt": "Play chapter 5",
+      "response": "Calling play_chapter with { chapter: 5 }"
+    },
+    {
+      "prompt": "Add a bookmark here",
+      "response": "Calling add_bookmark with { name: 'Important moment' }"
+    },
+    {
+      "prompt": "Set speed to 1.5x",
+      "response": "Calling set_reading_speed with { speed: 1.5 }"
+    },
+    {
+      "prompt": "What's my reading progress?",
+      "response": "Calling get_reading_progress"
+    },
+    {
+      "prompt": "Pause the audiobook",
+      "response": "Calling control_playback with { action: 'pause' }"
+    },
+    {
+      "prompt": "Create a sci-fi reading list",
+      "response": "Calling create_reading_list with { name: 'Sci-Fi Collection', books: ['Dune', 'Foundation', 'The Martian'] }"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+apiVersion: '2021-09-01'
+name: xiaozhi-mcphub-aci
+location: eastus
+properties:
+  containers:
+  - name: xiaozhi-mcphub
+    image: huangjunsen/xiaozhi-mcphub:latest
+    resources:
+      requests:
+        cpu: 1
+        memoryInGb: 2
+    ports:
+    - port: 3000
+      protocol: TCP
+    environmentVariables:
+    - name: NODE_ENV
+      value: production
+    - name: SMART_ROUTING_ENABLED
+      value: "false"
+    - name: ENABLE_CORS
+      value: "true"
+    # Database connection will be configured via Azure managed identity or connection string
+    # Uncomment and configure based on your database setup:
+    # - name: DATABASE_URL
+    #   value: "postgres://user:pass@server.postgres.database.azure.com:5432/dbname"
+  osType: Linux
+  restartPolicy: Always
+  ipAddress:
+    type: Public
+    ports:
+    - protocol: TCP
+      port: 3000
+    dnsNameLabel: xiaozhi-mcphub
+    type: Public
+  diagnostics:
+    logAnalytics:
+      workspaceId: YOUR_WORKSPACE_ID
+      workspaceKey: YOUR_WORKSPACE_KEY
+

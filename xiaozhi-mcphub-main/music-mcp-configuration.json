@@ -1,0 +1,157 @@
+{
+  "name": "Music Player",
+  "description": "Comprehensive music player with song playing, playlist management, and music control capabilities",
+  "command": "node",
+  "workingDirectory": "/Users/yliu3y/Desktop/WRO/xiaozhi-mcphub-main",
+  "transport": "stdio",
+  "requestTimeout": 60000,
+  "tools": [
+    {
+      "name": "play_song",
+      "description": "Play a specific song by name, artist, or search query",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Song name, artist, or search query (e.g., \"Bohemian Rhapsody\", \"Queen\", \"classic rock\")"
+          },
+          "artist": {
+            "type": "string",
+            "description": "Optional: Specific artist name"
+          },
+          "genre": {
+            "type": "string",
+            "description": "Optional: Music genre (e.g., \"rock\", \"pop\", \"jazz\", \"classical\")"
+          }
+        },
+        "required": ["query"]
+      }
+    },
+    {
+      "name": "play_playlist",
+      "description": "Play a playlist or create a new one with multiple songs",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Playlist name or \"create new\" to create a new playlist"
+          },
+          "songs": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Array of song names or search queries for the playlist"
+          }
+        },
+        "required": ["name"]
+      }
+    },
+    {
+      "name": "control_music",
+      "description": "Control music playback (play, pause, stop, next, previous, volume)",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": ["play", "pause", "stop", "next", "previous", "volume", "seek"],
+            "description": "Control action to perform"
+          },
+          "value": {
+            "type": "number",
+            "description": "For volume: 0-100, for seek: position in seconds"
+          }
+        },
+        "required": ["action"]
+      }
+    },
+    {
+      "name": "search_music",
+      "description": "Search for songs, artists, albums, or genres",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Search query for music"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["song", "artist", "album", "genre", "all"],
+            "description": "Type of music to search for",
+            "default": "all"
+          },
+          "limit": {
+            "type": "number",
+            "description": "Maximum number of results to return",
+            "default": 10
+          }
+        },
+        "required": ["query"]
+      }
+    },
+    {
+      "name": "get_now_playing",
+      "description": "Get information about the currently playing song and player status",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "set_repeat_mode",
+      "description": "Set repeat mode for music playback",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": ["none", "one", "all"],
+            "description": "Repeat mode: none (no repeat), one (repeat current song), all (repeat playlist)"
+          }
+        },
+        "required": ["mode"]
+      }
+    },
+    {
+      "name": "toggle_shuffle",
+      "description": "Toggle shuffle mode on/off",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether to enable shuffle mode"
+          }
+        }
+      }
+    }
+  ],
+  "examples": [
+    {
+      "prompt": "Play Bohemian Rhapsody",
+      "response": "Calling play_song with { query: 'Bohemian Rhapsody' }"
+    },
+    {
+      "prompt": "Search for rock songs",
+      "response": "Calling search_music with { query: 'rock', type: 'genre' }"
+    },
+    {
+      "prompt": "Turn up the volume to 80%",
+      "response": "Calling control_music with { action: 'volume', value: 80 }"
+    },
+    {
+      "prompt": "Create a playlist with my favorite songs",
+      "response": "Calling play_playlist with { name: 'My Favorites', songs: ['Bohemian Rhapsody', 'Imagine', 'Billie Jean'] }"
+    },
+    {
+      "prompt": "What's currently playing?",
+      "response": "Calling get_now_playing"
+    },
+    {
+      "prompt": "Pause the music",
+      "response": "Calling control_music with { action: 'pause' }"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "name": "UK Trains MCP",
+  "description": "Real-time UK train information including National Rail and Transport for London data",
+  "version": "1.0.0",
+  "author": "Assistant",
+  "homepage": "https://github.com/assistant/uk-trains-mcp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/assistant/uk-trains-mcp"
+  },
+  "keywords": ["mcp", "uk", "trains", "transport", "rail", "tfl", "national-rail"],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": "node uk-trains-server.js",
+    "dev": "node uk-trains-server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "axios": "^1.6.0"
+  },
+  "mcp": {
+    "name": "UK Trains",
+    "version": "1.0.0",
+    "description": "Get real-time UK train information including departures, arrivals, delays, and disruptions",
+    "capabilities": {
+      "tools": true
+    },
+    "transport": {
+      "type": "stdio"
+    }
+  },
+  "examples": [
+    {
+      "title": "Check departures from Leeds",
+      "description": "Get the next train departures from Leeds station",
+      "prompt": "What trains are departing from Leeds in the next hour?"
+    },
+    {
+      "title": "Check TfL Underground status",
+      "description": "Check the status of London Underground services",
+      "prompt": "Are there any delays on the London Underground today?"
+    },
+    {
+      "title": "Search for train stations",
+      "description": "Find train stations by name or code",
+      "prompt": "What's the station code for Edinburgh Waverley?"
+    }
+  ],
+  "usage": {
+    "basic": {
+      "title": "Basic Usage",
+      "description": "Basic usage with default settings",
+      "prompt": "node uk-trains-server.js"
+    }
+  }
+}

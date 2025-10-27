@@ -1,0 +1,169 @@
+{
+  "name": "uk-trains-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for UK train information including National Rail and Transport for London data",
+  "author": "Assistant",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "axios": "^1.6.0",
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  },
+  "mcp": {
+    "name": "UK Trains",
+    "version": "1.0.0",
+    "description": "Get real-time UK train information including departures, arrivals, delays, and disruptions",
+    "capabilities": {
+      "tools": [
+        {
+          "name": "get_train_departures",
+          "description": "Get real-time train departure information from a UK station",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "station": {
+                "type": "string",
+                "description": "Station code or name (e.g., 'LDS' for Leeds, 'PAD' for Paddington)"
+              },
+              "destination": {
+                "type": "string",
+                "description": "Optional destination station code or name"
+              },
+              "count": {
+                "type": "number",
+                "description": "Number of departures to return (default: 10)"
+              }
+            },
+            "required": ["station"]
+          }
+        },
+        {
+          "name": "get_train_arrivals",
+          "description": "Get real-time train arrival information at a UK station",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "station": {
+                "type": "string",
+                "description": "Station code or name"
+              },
+              "origin": {
+                "type": "string",
+                "description": "Optional origin station code or name"
+              },
+              "count": {
+                "type": "number",
+                "description": "Number of arrivals to return (default: 10)"
+              }
+            },
+            "required": ["station"]
+          }
+        },
+        {
+          "name": "get_train_journey",
+          "description": "Plan a train journey between two UK stations",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "from": {
+                "type": "string",
+                "description": "Origin station code or name"
+              },
+              "to": {
+                "type": "string",
+                "description": "Destination station code or name"
+              },
+              "date": {
+                "type": "string",
+                "description": "Journey date in YYYY-MM-DD format (default: today)"
+              },
+              "time": {
+                "type": "string",
+                "description": "Departure time in HH:MM format (default: now)"
+              }
+            },
+            "required": ["from", "to"]
+          }
+        },
+        {
+          "name": "get_train_delays",
+          "description": "Get information about current train delays and disruptions",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "route": {
+                "type": "string",
+                "description": "Optional route or line name to filter delays"
+              },
+              "severity": {
+                "type": "string",
+                "enum": ["minor", "major", "severe"],
+                "description": "Filter by delay severity"
+              }
+            }
+          }
+        },
+        {
+          "name": "get_tfl_status",
+          "description": "Get Transport for London service status including Underground, Overground, and DLR",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "line": {
+                "type": "string",
+                "description": "Optional specific line to check (e.g., 'central', 'northern', 'dlr')"
+              }
+            }
+          }
+        },
+        {
+          "name": "search_stations",
+          "description": "Search for UK train stations by name or partial name",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Station name or partial name to search for"
+              }
+            },
+            "required": ["query"]
+          }
+        }
+      ]
+    }
+  },
+  "examples": [
+    {
+      "title": "Check departures from Leeds",
+      "description": "Get the next 10 train departures from Leeds station",
+      "prompt": "What trains are departing from Leeds in the next hour?"
+    },
+    {
+      "title": "Plan journey to London",
+      "description": "Plan a train journey from Manchester to London",
+      "prompt": "How can I get from Manchester to London by train tomorrow morning?"
+    },
+    {
+      "title": "Check TfL status",
+      "description": "Check the status of London Underground services",
+      "prompt": "Are there any delays on the London Underground today?"
+    },
+    {
+      "title": "Find station information",
+      "description": "Search for train stations",
+      "prompt": "What's the station code for Edinburgh Waverley?"
+    }
+  ]
+}

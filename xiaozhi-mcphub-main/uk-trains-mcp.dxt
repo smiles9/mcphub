@@ -1,0 +1,92 @@
+{
+  "name": "uk-trains-mcp",
+  "version": "1.0.0",
+  "description": "UK train information MCP server for real-time train data",
+  "author": "Assistant",
+  "license": "MIT",
+  "mcp": {
+    "name": "UK Trains",
+    "version": "1.0.0",
+    "description": "Get real-time UK train information including departures, arrivals, delays, and disruptions",
+    "capabilities": {
+      "tools": true
+    },
+    "transport": {
+      "type": "stdio"
+    }
+  },
+  "server": {
+    "command": "node uk-trains-server.js",
+    "args": [],
+    "env": {},
+    "transport": "stdio"
+  },
+  "tools": [
+    {
+      "name": "get_train_departures",
+      "description": "Get real-time train departure information from a UK station",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "station": {
+            "type": "string",
+            "description": "Station code or name (e.g., 'LDS' for Leeds, 'PAD' for Paddington)"
+          },
+          "destination": {
+            "type": "string",
+            "description": "Optional destination station code or name"
+          },
+          "count": {
+            "type": "number",
+            "description": "Number of departures to return (default: 10)"
+          }
+        },
+        "required": ["station"]
+      }
+    },
+    {
+      "name": "get_tfl_status",
+      "description": "Get Transport for London service status including Underground, Overground, and DLR",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "line": {
+            "type": "string",
+            "description": "Optional specific line to check (e.g., 'central', 'northern', 'dlr')"
+          }
+        }
+      }
+    },
+    {
+      "name": "search_stations",
+      "description": "Search for UK train stations by name or partial name",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Station name or partial name to search for"
+          }
+        },
+        "required": ["query"]
+      }
+    }
+  ],
+  "examples": [
+    {
+      "title": "Check departures from Leeds",
+      "description": "Get the next train departures from Leeds station",
+      "prompt": "What trains are departing from Leeds in the next hour?"
+    },
+    {
+      "title": "Check TfL Underground status",
+      "description": "Check the status of London Underground services",
+      "prompt": "Are there any delays on the London Underground today?"
+    },
+    {
+      "title": "Search for train stations",
+      "description": "Find train stations by name or code",
+      "prompt": "What's the station code for Edinburgh Waverley?"
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+# Cursor Rules for WRO Project
+# Auto-GitHub Upload Configuration
+
+## Automatic GitHub Upload Rule
+**CRITICAL**: For every code change, modification, or run, you MUST automatically upload changes to GitHub using the following workflow:
+
+1. **Always check git status first**: `git status`
+2. **Stage all changes**: `git add .`
+3. **Commit with descriptive message**: `git commit -m "Auto-commit: [describe the change]"`
+4. **Push to GitHub**: `git push origin main`
+
+## Required Workflow for Every Session
+Before completing any task or making any changes:
+
+```bash
+# Check current status
+git status
+
+# Add all changes
+git add .
+
+# Commit with timestamp and description
+git commit -m "Auto-commit $(date): [brief description of changes]"
+
+# Push to GitHub
+git push origin main
+```
+
+## Commit Message Guidelines
+- Use descriptive commit messages
+- Include timestamp when possible
+- Describe what was changed or added
+- Examples:
+  - "Auto-commit: Updated ESP32 configuration"
+  - "Auto-commit: Added new board support"
+  - "Auto-commit: Fixed audio codec issues"
+  - "Auto-commit: Updated documentation"
+
+## Error Handling
+If push fails:
+1. Check authentication: `git remote -v`
+2. Pull latest changes: `git pull origin main`
+3. Resolve conflicts if any
+4. Retry push: `git push origin main`
+
+## Project Context
+- Repository: https://github.com/ybro2011/WRO.git
+- Main branch: main
+- Project: xiaozhi-esp32 ESP32 firmware project
+- Auto-upload is MANDATORY for all changes
+
+## Development Log Rule
+**CRITICAL**: For every major change, you MUST update the development log:
+
+1. **Update DEVELOPMENT_LOG.md** with:
+   - Date of change
+   - What was changed
+   - Why the change was made
+   - Files affected
+   - Technical impact
+   - Lessons learned
+
+2. **Include in every major change**:
+   - New features or tools
+   - Bug fixes that resolve significant issues
+   - Configuration changes
+   - New dependencies
+   - Architecture decisions
+
+## ESP32 Project Modification Rule
+**CRITICAL**: When working with the `xiaozhi-esp32-main` folder:
+
+1. **ONLY modify files within board-specific folders**:
+   - `xiaozhi-esp32-main/main/boards/[board-name]/` - Board-specific configurations
+   - `xiaozhi-esp32-main/main/boards/[board-name]/config.h` - Hardware pin mappings
+   - `xiaozhi-esp32-main/main/boards/[board-name]/config.json` - Build configuration
+   - `xiaozhi-esp32-main/main/boards/[board-name]/[board]_board.cc` - Board implementation
+   - `xiaozhi-esp32-main/main/boards/[board-name]/README.md` - Board documentation
+
+2. **NEVER modify core project files**:
+   - `xiaozhi-esp32-main/main/CMakeLists.txt` - Build system configuration
+   - `xiaozhi-esp32-main/main/Kconfig.projbuild` - Menuconfig options
+   - `xiaozhi-esp32-main/main/application.cc` - Main application code
+   - `xiaozhi-esp32-main/main/application.h` - Main application headers
+   - Any other files outside the `boards/` directory
+
+3. **Board Integration**: If a new board needs to be integrated into the build system:
+   - Create the board folder with all required files
+   - Document the integration requirements
+   - Provide instructions for manual integration by the user
+   - Do NOT modify CMakeLists.txt or Kconfig.projbuild directly
+
+## Additional Rules
+- Never leave changes uncommitted
+- Always verify upload success
+- Maintain clean git history
+- Use meaningful commit messages
+- Test changes before committing when possible
+- Update development log for all major changes
+
+**REMINDER**: This rule applies to ALL interactions - every code change, file modification, or project update MUST be automatically uploaded to GitHub AND documented in the development log before completing the task.

@@ -1,0 +1,36 @@
+# fly.toml for UK Buses MCP Server
+
+app = "uk-buses-mcp"
+primary_region = "iad"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = false  # Always-on on free tier
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ["app"]
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory_mb = 256
+
+[processes]
+  app = "node uk-buses-mcp-server.js"
+
+[env]
+  NODE_ENV = "production"
+
+# Optional: Health checks
+[[http_service.checks]]
+  interval = "1m"
+  grace_period = "10s"
+  method = "GET"
+  path = "/"
+  protocol = "http"
+  timeout = "5s"
+  tls_skip_verify = false

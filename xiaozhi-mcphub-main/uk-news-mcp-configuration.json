@@ -1,0 +1,171 @@
+{
+  "name": "UK News",
+  "description": "Comprehensive UK news service with headlines, breaking news, regional coverage, and analysis",
+  "command": "node",
+  "workingDirectory": "/Users/yliu3y/Desktop/WRO/xiaozhi-mcphub-main",
+  "transport": "stdio",
+  "requestTimeout": 60000,
+  "tools": [
+    {
+      "name": "get_uk_headlines",
+      "description": "Get the latest UK news headlines from major news sources",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string",
+            "enum": ["all", "bbc", "guardian", "independent", "telegraph", "times", "mirror"],
+            "description": "News source to fetch from (default: all)",
+            "default": "all"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["all", "politics", "business", "sports", "technology", "health", "world"],
+            "description": "News category to filter by (default: all)",
+            "default": "all"
+          },
+          "limit": {
+            "type": "number",
+            "description": "Maximum number of headlines to return (default: 10)",
+            "default": 10
+          }
+        }
+      }
+    },
+    {
+      "name": "search_uk_news",
+      "description": "Search UK news articles by keywords or topics",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Search query or keywords to look for in news articles"
+          },
+          "source": {
+            "type": "string",
+            "enum": ["all", "bbc", "guardian", "independent", "telegraph", "times", "mirror"],
+            "description": "News source to search in (default: all)",
+            "default": "all"
+          },
+          "days": {
+            "type": "number",
+            "description": "Number of days back to search (default: 7)",
+            "default": 7
+          },
+          "limit": {
+            "type": "number",
+            "description": "Maximum number of results to return (default: 10)",
+            "default": 10
+          }
+        },
+        "required": ["query"]
+      }
+    },
+    {
+      "name": "get_breaking_news",
+      "description": "Get breaking news alerts and urgent UK news updates",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "number",
+            "description": "Maximum number of breaking news items to return (default: 5)",
+            "default": 5
+          }
+        }
+      }
+    },
+    {
+      "name": "get_news_by_region",
+      "description": "Get news specific to UK regions (England, Scotland, Wales, Northern Ireland)",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "region": {
+            "type": "string",
+            "enum": ["all", "england", "scotland", "wales", "northern-ireland", "london"],
+            "description": "UK region to get news for",
+            "default": "all"
+          },
+          "limit": {
+            "type": "number",
+            "description": "Maximum number of articles to return (default: 10)",
+            "default": 10
+          }
+        }
+      }
+    },
+    {
+      "name": "get_news_analysis",
+      "description": "Get in-depth analysis and opinion pieces on UK news topics",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "topic": {
+            "type": "string",
+            "description": "Topic or subject for analysis (e.g., \"Brexit\", \"Climate Change\", \"Economy\")"
+          },
+          "source": {
+            "type": "string",
+            "enum": ["all", "bbc", "guardian", "independent", "telegraph", "times"],
+            "description": "News source for analysis (default: all)",
+            "default": "all"
+          },
+          "limit": {
+            "type": "number",
+            "description": "Maximum number of analysis articles to return (default: 5)",
+            "default": 5
+          }
+        },
+        "required": ["topic"]
+      }
+    },
+    {
+      "name": "get_weather_news",
+      "description": "Get UK weather-related news and forecasts",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "region": {
+            "type": "string",
+            "enum": ["all", "england", "scotland", "wales", "northern-ireland"],
+            "description": "UK region for weather news (default: all)",
+            "default": "all"
+          },
+          "limit": {
+            "type": "number",
+            "description": "Maximum number of weather news items to return (default: 5)",
+            "default": 5
+          }
+        }
+      }
+    }
+  ],
+  "examples": [
+    {
+      "prompt": "Get the latest UK headlines from BBC",
+      "response": "Calling get_uk_headlines with { source: 'bbc' }"
+    },
+    {
+      "prompt": "Show me breaking news",
+      "response": "Calling get_breaking_news"
+    },
+    {
+      "prompt": "Search for news about climate change",
+      "response": "Calling search_uk_news with { query: 'climate change' }"
+    },
+    {
+      "prompt": "Get news from Scotland",
+      "response": "Calling get_news_by_region with { region: 'scotland' }"
+    },
+    {
+      "prompt": "Find analysis about Brexit",
+      "response": "Calling get_news_analysis with { topic: 'Brexit' }"
+    },
+    {
+      "prompt": "What's the weather news for England?",
+      "response": "Calling get_weather_news with { region: 'england' }"
+    }
+  ]
+}

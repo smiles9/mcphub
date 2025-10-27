@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "uk-buses": {
+      "command": "node",
+      "args": ["uk-buses-mcp-server.js"],
+      "description": "Real-time UK bus information including arrivals, stops, routes, and disruptions",
+      "env": {}
+    }
+  }
+}
+

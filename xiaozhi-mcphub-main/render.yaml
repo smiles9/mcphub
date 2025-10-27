@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: xiaozhi-mcphub
+    env: node
+    plan: free
+    region: oregon
+    buildCommand: pnpm install && pnpm frontend:build && pnpm build
+    startCommand: pnpm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SMART_ROUTING_ENABLED
+        value: "false"
+      - key: ENABLE_CORS
+        value: "true"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: xiaozhi-mcphub-db
+          property: connectionString
+
+databases:
+  - name: xiaozhi-mcphub-db
+    databaseName: xiaozhi_mcphub
+    user: xiaozhi
+    plan: free
+
