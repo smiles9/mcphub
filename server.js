@@ -134,7 +134,29 @@ const server = http.createServer((req, res) => {
   res.end(JSON.stringify({ error: 'Not found' }));
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, '0.0.0.0', () => {
   console.log(`UK Buses MCP Server (HTTP wrapper) running on port ${PORT}`);
   console.log(`Visit http://localhost:${PORT}/health for health check`);
+});
+
+// Handle errors gracefully
+server.on('error', (err) => {
+  console.error('Server error:', err);
+});
+
+// Keep the process alive
+process.on('SIGTERM', () => {
+  console.log('SIGTERM received, shutting down gracefully');
+  server.close(() => {
+    console.log('Server closed');
+    process.exit(0);
+  });
+});
+
+process.on('SIGINT', () => {
+  console.log('SIGINT received, shutting down gracefully');
+  server.close(() => {
+    console.log('Server closed');
+    process.exit(0);
+  });
 });
