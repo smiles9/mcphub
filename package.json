@@ -5,7 +5,7 @@
   "type": "module",
   "main": "uk-buses-mcp-server.js",
   "scripts": {
-    "start": "node uk-buses-mcp-server.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.20.1"
