@@ -144,7 +144,7 @@ server.on('error', (err) => {
   console.error('Server error:', err);
 });
 
-// Keep the process alive
+// Keep the process alive - prevent immediate exit
 process.on('SIGTERM', () => {
   console.log('SIGTERM received, shutting down gracefully');
   server.close(() => {
@@ -160,3 +160,8 @@ process.on('SIGINT', () => {
     process.exit(0);
   });
 });
+
+// Keep process alive
+setInterval(() => {
+  // Just keep the event loop running
+}, 10000);
