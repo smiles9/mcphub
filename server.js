@@ -9,6 +9,13 @@ import http from 'http';
 
 const PORT = process.env.PORT || 3000;
 
+// Debug logging
+console.log('=== RAILWAY DEBUG INFO ===');
+console.log('PORT environment variable:', process.env.PORT);
+console.log('Using PORT:', PORT);
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('=========================');
+
 // Sample tool listings that would come from the MCP server
 const tools = [
   {
