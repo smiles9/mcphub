@@ -135,8 +135,12 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, '0.0.0.0', () => {
+  const address = server.address();
   console.log(`UK Buses MCP Server (HTTP wrapper) running on port ${PORT}`);
-  console.log(`Visit http://localhost:${PORT}/health for health check`);
+  console.log(`Listening on 0.0.0.0:${PORT}`);
+  console.log(`Server address:`, address);
+  console.log(`Health check available at /health`);
+  console.log(`Server ready to accept connections on ${address.address}:${address.port}`);
 });
 
 // Handle errors gracefully
